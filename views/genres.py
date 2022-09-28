@@ -12,7 +12,8 @@ genres_schema = GenreSchema(many=True)
 class GenreView(Resource):
     def get(self):
         all_genres = genre_service.get_all()
-        print(all_genres)
+        if not all_genres:
+            return 'Ошибка', 404
         return genres_schema.dump(all_genres), 200
 
 
@@ -20,4 +21,6 @@ class GenreView(Resource):
 class GenreView(Resource):
     def get(self, did):
         one_genre_by_id = genre_service.get_one(did)
+        if not one_genre_by_id:
+            return 'Ошибка', 404
         return genres_schema.dump(one_genre_by_id), 200
